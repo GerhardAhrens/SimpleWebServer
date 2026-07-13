@@ -19,6 +19,11 @@
 namespace SimpleWebServer
 {
     /* Imports from NET Framework */
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using SimpleWebServer.WebFunction;
+
     using System;
 
     public class Program
@@ -31,34 +36,22 @@ namespace SimpleWebServer
 
         private static void Main(string[] args)
         {
-            CMenu unterMenu = new CMenu("Untermenü");
-            unterMenu.AddItem("Untermenüpunkt 1", () => UnterMenuPoint("A"), "🖥");
-            unterMenu.AddItem("Untermenüpunkt 2", () => UnterMenuPoint("B"), "🔊");
+            var builder = WebApplication.CreateBuilder(args);
 
-            CMenu mainMenu = new CMenu("Hauptmenü");
-            mainMenu.AddItem("Auswahl Menüpunkt 1", MenuPoint1);
-            mainMenu.AddSubMenu("Einstellungen", unterMenu, "⚙");
-            mainMenu.AddItem("Beenden", () => ApplicationExit());
-            mainMenu.Show();
-        }
+            builder.Services.AddSingleton<HelloWorldService>();
 
-        private static void ApplicationExit()
-        {
-            Environment.Exit(0);
-        }
+            builder.Services.AddSingleton<IRestApi, HelloApi>();
+            builder.Services.AddSingleton<ApiRegistry>();
 
-        private static void MenuPoint1()
-        {
-            Console.Clear();
+            var app = builder.Build();
 
-            Console.Wait();
-        }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
-        private static void UnterMenuPoint(string param)
-        {
-            Console.Clear();
+            var registry = app.Services.GetRequiredService<ApiRegistry>();
+            registry.Register(app);
 
-            Console.Wait(param);
+            app.Run();
         }
     }
 }
