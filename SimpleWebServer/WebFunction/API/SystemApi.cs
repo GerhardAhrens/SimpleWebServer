@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Routing;
 
     public class SystemApi : IRestApi
     {
@@ -12,9 +13,9 @@
             _service = service;
         }
 
-        public void Register(WebApplication app)
+        public void Register(IEndpointRouteBuilder endpoints)
         {
-            app.MapGet("/api/system/machinename", () =>
+            endpoints.MapGet("/api/system/machinename", () =>
             {
                 return Results.Ok(new
                 {

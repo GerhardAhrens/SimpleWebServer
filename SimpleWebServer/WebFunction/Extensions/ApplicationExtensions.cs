@@ -23,14 +23,22 @@ namespace SimpleWebServer.WebFunction
         public static WebApplication UseSimpleWebServer(this WebApplication app)
         {
             app.UseDefaultFiles();
-
             app.UseStaticFiles();
 
-            ApiRegistry registry = app.Services.GetRequiredService<ApiRegistry>();
+            //----------------------------------------------------------
+            // Alle REST-APIs registrieren
+            //----------------------------------------------------------
 
-            registry.Register(app);
+            foreach (var api in app.Services.GetServices<IRestApi>())
+            {
+                api.Register(app);
+            }
 
-            WebServerConfiguration config = app.Services.GetRequiredService<WebServerConfiguration>();
+            //----------------------------------------------------------
+            // Konsolenausgabe
+            //----------------------------------------------------------
+
+            var config = app.Services.GetRequiredService<WebServerConfiguration>();
 
             Console.WriteLine();
             Console.Line();

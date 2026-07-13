@@ -15,10 +15,9 @@
 
 namespace SimpleWebServer.WebFunction
 {
-    using Microsoft.AspNetCore.Builder;
-
-    using System;
     using System.Collections.Generic;
+
+    using Microsoft.AspNetCore.Routing;
 
     public class ApiRegistry
     {
@@ -29,7 +28,7 @@ namespace SimpleWebServer.WebFunction
             _apis = apis;
         }
 
-        public void Register(WebApplication app)
+        public void Register(IEndpointRouteBuilder app)
         {
             foreach (var api in _apis)
             {

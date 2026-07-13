@@ -16,9 +16,10 @@
 namespace SimpleWebServer.WebFunction
 {
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Routing;
 
     public interface IRestApi
     {
-        void Register(WebApplication app);
+        void Register(IEndpointRouteBuilder endpoints);
     }
 }

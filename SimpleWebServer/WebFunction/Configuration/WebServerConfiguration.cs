@@ -15,6 +15,6 @@
         /// Nur lokale Zugriffe erlauben
         /// false = Netzwerkzugriff erlauben
         /// </summary>
-        public bool LocalhostOnly { get; set; } = false;
+        public bool LocalhostOnly { get; set; }
     }
 }

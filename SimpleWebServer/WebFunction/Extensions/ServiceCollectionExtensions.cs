@@ -15,6 +15,8 @@
 
 namespace SimpleWebServer.WebFunction
 {
+    using System.Windows;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -24,18 +26,18 @@ namespace SimpleWebServer.WebFunction
     {
         public static IServiceCollection AddSimpleWebServer(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            //
+            //----------------------------------------------------------
             // Konfiguration laden
-            //
-            builder.Services.Configure<WebServerConfiguration>(
-                builder.Configuration.GetSection("WebServer"));
+            //----------------------------------------------------------
 
-            var config =
-                builder.Configuration.GetSection("WebServer").Get<WebServerConfiguration>() ?? new WebServerConfiguration();
+            var config = builder.Configuration.GetSection("WebServer").Get<WebServerConfiguration>() ?? new WebServerConfiguration();
 
-            //
+            services.AddSingleton(config);
+
+            //----------------------------------------------------------
             // Kestrel konfigurieren
-            //
+            //----------------------------------------------------------
+
             builder.WebHost.ConfigureKestrel(options =>
             {
                 if (config.LocalhostOnly)
@@ -48,21 +50,18 @@ namespace SimpleWebServer.WebFunction
                 }
             });
 
-            services.AddSingleton(config);
+            //----------------------------------------------------------
+            // Services registrieren
+            //----------------------------------------------------------
 
-            //
-            // Services
-            //
             services.AddSingleton<HelloWorldService>();
             services.AddSingleton<SystemService>();
 
-            //
-            // REST APIs
-            //
-            services.AddSingleton<IRestApi, HelloApi>();
-            services.AddSingleton<IRestApi, SystemApi>();
+            //----------------------------------------------------------
+            // Alle REST-APIs automatisch registrieren
+            //----------------------------------------------------------
 
-            services.AddSingleton<ApiRegistry>();
+            services.RegisterRestApis();
 
             return services;
         }

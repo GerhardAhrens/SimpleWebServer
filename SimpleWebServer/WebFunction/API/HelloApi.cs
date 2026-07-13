@@ -15,10 +15,11 @@
 
 namespace SimpleWebServer.WebFunction
 {
+    using System;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
-
-    using System;
+    using Microsoft.AspNetCore.Routing;
 
     public record HelloRequest(string Text);
 
@@ -31,9 +32,9 @@ namespace SimpleWebServer.WebFunction
             _service = service;
         }
 
-        public void Register(WebApplication app)
+        public void Register(IEndpointRouteBuilder endpoints)
         {
-            app.MapGet("/api/hello", () =>
+            endpoints.MapGet("/api/hello", () =>
             {
                 return Results.Ok(new
                 {
@@ -42,14 +43,14 @@ namespace SimpleWebServer.WebFunction
                 });
             });
 
-            app.MapPost("/api/hello", (HelloRequest request) =>
+            endpoints.MapPost("/api/hello", (HelloRequest request) =>
             {
                 _service.Text = request.Text;
 
                 return Results.Ok();
             });
 
-            app.MapGet("/api/hello/set", (string text, HelloWorldService service) =>
+            endpoints.MapGet("/api/hello/set", (string text, HelloWorldService service) =>
             {
                 service.Text = text;
 
