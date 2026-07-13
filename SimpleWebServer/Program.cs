@@ -18,13 +18,11 @@
 
 namespace SimpleWebServer
 {
+    using System;
     /* Imports from NET Framework */
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
 
     using SimpleWebServer.WebFunction;
-
-    using System;
 
     public class Program
     {
@@ -38,18 +36,11 @@ namespace SimpleWebServer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSingleton<HelloWorldService>();
-
-            builder.Services.AddSingleton<IRestApi, HelloApi>();
-            builder.Services.AddSingleton<ApiRegistry>();
+            builder.Services.AddSimpleWebServer(builder);
 
             var app = builder.Build();
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
-            var registry = app.Services.GetRequiredService<ApiRegistry>();
-            registry.Register(app);
+            app.UseSimpleWebServer();
 
             app.Run();
         }

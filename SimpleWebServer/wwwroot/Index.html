@@ -6,17 +6,29 @@
     <title>Simple Web Server</title>
 </head>
 
-<body>
+<body style="background-color: lightgray;">
 
-    <h2>Simple Web Server</h2>
+    <h1>Simple Web Server</h1>
+    <h2>Einen Wert  lesen und neu setzten</h2>
 
     <div id="result"></div>
     <br />
     <br />
-    <input id="text" />
+    <input id="text" size="20" />
 
     <button onclick="save()">
         Speichern
+    </button>
+
+    <br />
+    <br />
+
+    <h2>Systeminformationen</h2>
+
+    <input id="machineName" readonly size="20">
+
+    <button onclick="loadMachineName()">
+        MachineName lesen
     </button>
 
     <script src="app.js"></script>

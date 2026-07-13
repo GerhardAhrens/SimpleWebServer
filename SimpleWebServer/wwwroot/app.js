@@ -1,20 +1,19 @@
-﻿async function load() {
+﻿async function load()
+{
 
     let response = await fetch("/api/hello");
 
     let json = await response.json();
 
-    document.getElementById("result").innerHTML =
-        json.text + "<br>" + json.time;
+    document.getElementById("result").innerHTML = json.text + "<br>" + json.time;
 
-    document.getElementById("text").value =
-        json.text;
+    document.getElementById("text").value = json.text;
 }
 
-async function save() {
+async function save()
+{
 
-    let text =
-        document.getElementById("text").value;
+    let text =  document.getElementById("text").value;
 
     await fetch("/api/hello",
         {
@@ -32,6 +31,15 @@ async function save() {
         });
 
     load();
+}
+
+async function loadMachineName()
+{
+    let response = await fetch("/api/system/machinename");
+
+    let json = await response.json();
+
+    document.getElementById("machineName").value = json.machineName;
 }
 
 load();
