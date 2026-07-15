@@ -15,11 +15,11 @@
 
 namespace SimpleWebServer.WebFunction
 {
-    using System;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
+
+    using System;
 
     public record HelloRequest(string Text);
 

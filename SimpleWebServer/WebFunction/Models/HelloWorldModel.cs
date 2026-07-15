@@ -20,10 +20,6 @@ namespace SimpleWebServer.WebFunction
 
     public class HelloWorldModel
     {
-        public HelloWorldModel()
-        {            
-        }
-
         public string Text { get; set; } = "Hallo World";
     }
 }
