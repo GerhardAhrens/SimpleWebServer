@@ -6,22 +6,12 @@
 
     public class WebServerConfiguration
     {
-        /// <summary>
-        /// TCP-Port des Webservers
-        /// </summary>
+        public const string SectionName = "WebServer";
+
         public int Port { get; set; } = 8080;
 
-        /// <summary>
-        /// Nur lokale Zugriffe erlauben
-        /// false = Netzwerkzugriff erlauben
-        /// </summary>
-        public bool LocalhostOnly { get; set; }
+        public string Host { get; set; } = "localhost";
 
-        /// <summary>
-        /// Leer = alle Netzwerkkarten
-        /// Beispiel:
-        /// 192.168.178.25
-        /// </summary>
-        public string IpAddress { get; set; }
+        public bool DisableBrowserCache { get; set; } = true;
     }
 }

@@ -15,6 +15,7 @@
 
 namespace SimpleWebServer.WebFunction
 {
+    using System.Globalization;
     using System.Net;
     using System.Windows;
 
@@ -28,37 +29,41 @@ namespace SimpleWebServer.WebFunction
         public static IServiceCollection AddSimpleWebServer(this IServiceCollection services, WebApplicationBuilder builder)
         {
             //----------------------------------------------------------
-            // Konfiguration laden
+            // Konfiguration
             //----------------------------------------------------------
 
-            var config = builder.Configuration.GetSection("WebServer").Get<WebServerConfiguration>() ?? new WebServerConfiguration();
+            services.Configure<WebServerConfiguration>(builder.Configuration.GetSection(WebServerConfiguration.SectionName));
 
-            services.AddSingleton(config);
+            //----------------------------------------------------------
+            // SignalR
+            //----------------------------------------------------------
+
             services.AddSignalR();
 
             //----------------------------------------------------------
             // Kestrel konfigurieren
             //----------------------------------------------------------
 
-            var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
-
-            builder.WebHost.ConfigureKestrel(options =>
+            builder.WebHost.ConfigureKestrel((context, options) =>
             {
-                if (config.LocalhostOnly)
+                var config = context.Configuration.GetSection(WebServerConfiguration.SectionName).Get<WebServerConfiguration>() ?? new();
+
+                if (config.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
                 {
                     options.ListenLocalhost(config.Port);
                 }
-                else if (!string.IsNullOrWhiteSpace(config.IpAddress) && config.IpAddress != "*")
+                else if (config.Host.Equals("*"))
                 {
-                    options.Listen(IPAddress.Parse(config.IpAddress), config.Port);
+                    options.ListenAnyIP(config.Port);
                 }
-                else if (!string.IsNullOrWhiteSpace(config.IpAddress) && config.IpAddress == "*")
+                else if (config.Host.Equals("self"))
                 {
-                    options.Listen(IPAddress.Parse(localIP), config.Port);
+                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
+                    options.Listen(System.Net.IPAddress.Parse(localIP), config.Port);
                 }
                 else
                 {
-                    options.ListenAnyIP(config.Port);
+                    options.Listen(System.Net.IPAddress.Parse(config.Host), config.Port);
                 }
             });
 

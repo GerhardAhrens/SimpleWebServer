@@ -15,15 +15,38 @@
 
 namespace SimpleWebServer.WebFunction
 {
+    using System.Globalization;
+
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
 
     public static class ApplicationExtensions
     {
         public static WebApplication UseSimpleWebServer(this WebApplication app)
         {
+            var configuration = app.Services.GetRequiredService<IOptions<WebServerConfiguration>>().Value;
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            if (configuration.DisableBrowserCache == true)
+            {
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
+                        ctx.Context.Response.Headers.Pragma = "no-cache";
+                        ctx.Context.Response.Headers.Expires = "0";
+                    }
+                });
+            }
+            else
+            {
+                app.UseStaticFiles();
+            }
 
             //----------------------------------------------------------
             // Alle REST-APIs registrieren
@@ -40,7 +63,6 @@ namespace SimpleWebServer.WebFunction
             // Konsolenausgabe
             //----------------------------------------------------------
 
-            var config = app.Services.GetRequiredService<WebServerConfiguration>();
             var system = app.Services.GetRequiredService<SystemService>();
 
             var info = system.GetSystemInfo();
@@ -55,20 +77,21 @@ namespace SimpleWebServer.WebFunction
             Console.WriteText($".NET      : {info.DotNetVersion}");
             Console.Line();
             Console.WriteText("Erreichbar unter:");
-            if (config.LocalhostOnly == true)
+
+            if (configuration.Host.ToLower(CultureInfo.CurrentCulture) == "localhost".ToLower(CultureInfo.CurrentCulture))
             {
-                Console.WriteText($"LocalHost : {config.LocalhostOnly}:{config.Port}", ConsoleColor.Green);
+                Console.WriteText($"LocalHost : {configuration.Host}:{configuration.Port}", ConsoleColor.Green);
             }
             else
             {
-                var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
-                if (config.IpAddress == "*")
+                if (configuration.Host.Equals("self"))
                 {
-                    Console.WriteText($"Localhost : {localIP}:{config.Port}", ConsoleColor.Green);
+                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
+                    Console.WriteText($"Localhost : {localIP}:{configuration.Port}", ConsoleColor.Green);
                 }
                 else
                 {
-                    Console.WriteText($"Host : {config.IpAddress}:{config.Port}", ConsoleColor.Green);
+                    Console.WriteText($"Host : {configuration.Host}:{configuration.Port}", ConsoleColor.Green);
                 }
             }
 
