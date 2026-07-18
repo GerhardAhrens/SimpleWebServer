@@ -22,10 +22,28 @@ namespace SimpleWebServer.WebFunction
     {
         private readonly HelloWorldModel _model = new();
 
+        public event EventHandler TextChanged;
+
+        public HelloWorldService()
+        {
+            /* Console.WriteLine($"HelloWorldService: {GetHashCode()}");*/
+        }
+
         public string Text
         {
-            get => _model.Text;
-            set => _model.Text = value;
+            get => this._model.Text;
+
+            set
+            {
+                if (this._model.Text == value)
+                {
+                    return;
+                }
+
+                this._model.Text = value;
+
+                this.TextChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

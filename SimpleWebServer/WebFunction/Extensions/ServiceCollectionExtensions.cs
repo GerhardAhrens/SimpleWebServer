@@ -34,6 +34,7 @@ namespace SimpleWebServer.WebFunction
             var config = builder.Configuration.GetSection("WebServer").Get<WebServerConfiguration>() ?? new WebServerConfiguration();
 
             services.AddSingleton(config);
+            services.AddSignalR();
 
             //----------------------------------------------------------
             // Kestrel konfigurieren
@@ -60,12 +61,17 @@ namespace SimpleWebServer.WebFunction
                     options.ListenAnyIP(config.Port);
                 }
             });
+
             //----------------------------------------------------------
             // Services registrieren
             //----------------------------------------------------------
 
+            services.AddHostedService<ClockService>();
+            services.AddHostedService<NotificationService>();
+
             services.AddSingleton<HelloWorldService>();
             services.AddSingleton<SystemService>();
+            services.AddSingleton<TimeService>();
 
             //----------------------------------------------------------
             // Alle REST-APIs automatisch registrieren

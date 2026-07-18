@@ -1,37 +1,121 @@
 ﻿<!DOCTYPE html>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Simple Web Server</title>
-    </head>
+<html lang="de">
 
-    <body style="background-color: lightgray;">
+<head>
 
-        <h1>Simple Web Server</h1>
-        <h2>Einen Wert  lesen und neu setzten</h2>
+    <meta charset="utf-8" />
 
-        <div id="result"></div>
-        <br />
-        <br />
-        <input id="text" size="20" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
-        <button onclick="save()">
+    <title>Simple WebServer</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+
+    <script defer src="app.js"></script>
+
+    <style>
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 35px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 250px;
+            padding: 5px;
+        }
+
+        #result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            background-color: #f8f8f8;
+            min-height: 45px;
+        }
+
+        #connectionState {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Simple WebServer Demo</h1>
+
+    <p>
+        SignalR:
+        <span id="connectionState">Nicht verbunden</span>
+    </p>
+
+    <hr />
+
+    <h2>Hello World</h2>
+
+    <div class="row">
+
+        <input id="text"
+               type="text" />
+
+        <button id="btnSave">
             Speichern
         </button>
 
-        <br />
-        <br />
+    </div>
 
-        <h2>Systeminformationen</h2>
+    <div id="result"></div>
 
-        <input id="machineName" readonly size="20">
+    <hr />
 
-        <button onclick="loadMachineName()">
-            MachineName lesen
+    <h2>System</h2>
+
+    <div class="row">
+
+        <input id="machineName"
+               type="text"
+               readonly />
+
+        <button id="btnMachineName">
+            Rechnername lesen
         </button>
 
-        <script src="app.js"></script>
+    </div>
 
-    </body>
+    <hr />
+
+    <h2>Uhr</h2>
+
+    <div class="row">
+
+        <input id="currentTime"
+               type="text"
+               readonly />
+
+        <button id="btnTime">
+            Uhrzeit lesen
+        </button>
+
+    </div>
+
+</body>
+
 </html>

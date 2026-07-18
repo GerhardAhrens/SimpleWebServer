@@ -34,33 +34,44 @@ namespace SimpleWebServer.WebFunction
                 api.Register(app);
             }
 
+            app.MapHub<WebServerHub>("/hub/webserver");
+
             //----------------------------------------------------------
             // Konsolenausgabe
             //----------------------------------------------------------
 
             var config = app.Services.GetRequiredService<WebServerConfiguration>();
+            var system = app.Services.GetRequiredService<SystemService>();
+
+            var info = system.GetSystemInfo();
 
             Console.WriteLine();
             Console.Line();
             Console.WriteText("Simple Web Server", ConsoleColor.Yellow);
             Console.Line();
-            Console.WriteText($"Port      : {config.Port}", ConsoleColor.Green);
+            Console.WriteText($"Computer : {info.MachineName}");
+            Console.WriteText($"Benutzer : {info.UserName}");
+            Console.WriteText($"OS        : {info.OperatingSystem}");
+            Console.WriteText($".NET      : {info.DotNetVersion}");
+            Console.Line();
+            Console.WriteText("Erreichbar unter:");
             if (config.LocalhostOnly == true)
             {
-                Console.WriteText($"Localhost : {config.LocalhostOnly}", ConsoleColor.Green);
+                Console.WriteText($"LocalHost : {config.LocalhostOnly}:{config.Port}", ConsoleColor.Green);
             }
             else
             {
                 var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
                 if (config.IpAddress == "*")
                 {
-                    Console.WriteText($"Localhost : {localIP}", ConsoleColor.Green);
+                    Console.WriteText($"Localhost : {localIP}:{config.Port}", ConsoleColor.Green);
                 }
                 else
                 {
-                    Console.WriteText($"Localhost : {config.IpAddress}", ConsoleColor.Green);
+                    Console.WriteText($"Host : {config.IpAddress}:{config.Port}", ConsoleColor.Green);
                 }
             }
+
             Console.Line();
             Console.WriteLine();
 

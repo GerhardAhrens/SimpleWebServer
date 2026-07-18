@@ -21,6 +21,8 @@ namespace SimpleWebServer
     using System;
     /* Imports from NET Framework */
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     using SimpleWebServer.WebFunction;
 
@@ -41,6 +43,15 @@ namespace SimpleWebServer
                 builder.Services.AddSimpleWebServer(builder);
 
                 var app = builder.Build();
+
+                var hostedServices = app.Services.GetServices<IHostedService>();
+
+                /*
+                foreach (var service in hostedServices)
+                {
+                    Console.WriteLine(service.GetType().FullName);
+                }
+                */
 
                 app.UseSimpleWebServer();
 

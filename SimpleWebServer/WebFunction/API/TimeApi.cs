@@ -4,27 +4,25 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
 
-    public class SystemApi : IRestApi
-    {
-        private readonly SystemService _service;
+    using System;
+    using System.Globalization;
 
-        public SystemApi(SystemService service)
+    public class TimeApi : IRestApi
+    {
+        private readonly TimeService _service;
+
+        public TimeApi(TimeService service)
         {
             _service = service;
         }
 
         public void Register(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/api/system/info", () =>
-            {
-                return Results.Ok(_service.GetSystemInfo());
-            });
-
-            endpoints.MapGet("/api/system/machinename", () =>
+            endpoints.MapGet("/api/time", () =>
             {
                 return Results.Ok(new
                 {
-                    MachineName = _service.GetSystemInfo().MachineName
+                    Time = _service.CurrentTime.ToString("HH:mm:ss",CultureInfo.CurrentCulture)
                 });
             });
         }

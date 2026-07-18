@@ -1,19 +1,112 @@
-﻿async function load()
+﻿//----------------------------------------------------------
+// Initialisierung
+//----------------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", initialize);
+
+async function initialize()
 {
+    registerEvents();
 
-    let response = await fetch("/api/hello");
+    await startSignalR();
 
-    let json = await response.json();
-
-    document.getElementById("result").innerHTML = json.text + "<br>" + json.time;
-
-    document.getElementById("text").value = json.text;
+    await loadHello();
+    await loadMachineName();
+    await loadTime();
 }
 
-async function save()
-{
+//----------------------------------------------------------
+// Event-Registrierung
+//----------------------------------------------------------
 
-    let text =  document.getElementById("text").value;
+function registerEvents()
+{
+    document
+        .getElementById("btnSave")
+        .addEventListener("click", saveHello);
+
+    document
+        .getElementById("btnMachineName")
+        .addEventListener("click", loadMachineName);
+
+    document
+        .getElementById("btnTime")
+        .addEventListener("click", loadTime);
+}
+
+//----------------------------------------------------------
+// SignalR
+//----------------------------------------------------------
+
+const connection =
+    new signalR.HubConnectionBuilder()
+        .withUrl("/hub/webserver")
+        .withAutomaticReconnect()
+        .build();
+
+async function startSignalR() {
+    connection.on("HelloChanged", async () => {
+        console.log("HelloChanged");
+
+        await loadHello();
+    });
+
+    connection.on("TimeChanged", (time) => {
+        console.log("TimeChanged empfangen:", time);
+
+        document.getElementById("currentTime").value = time;
+    });
+
+    connection.onreconnecting(() => {
+        document.getElementById("connectionState").innerText =
+            "Verbindung wird wiederhergestellt...";
+    });
+
+    connection.onreconnected(() => {
+        document.getElementById("connectionState").innerText =
+            "Verbunden";
+    });
+
+    connection.onclose(() => {
+        document.getElementById("connectionState").innerText =
+            "Getrennt";
+    });
+
+    try {
+        await connection.start();
+
+        document.getElementById("connectionState").innerText =
+            "Verbunden";
+    }
+    catch (err) {
+        console.error(err);
+
+        document.getElementById("connectionState").innerText =
+            "Fehler";
+    }
+}
+
+//----------------------------------------------------------
+// REST - Hello
+//----------------------------------------------------------
+
+async function loadHello() {
+    const response =
+        await fetch("/api/hello");
+
+    const json =
+        await response.json();
+
+    document.getElementById("result").innerHTML =
+        json.text + "<br>" + json.time;
+
+    document.getElementById("text").value =
+        json.text;
+}
+
+async function saveHello() {
+    const text =
+        document.getElementById("text").value;
 
     await fetch("/api/hello",
         {
@@ -30,16 +123,35 @@ async function save()
                 })
         });
 
-    load();
+    // Keine Aktualisierung notwendig.
+    // Der Browser erhält automatisch ein "HelloChanged"
+    // über SignalR.
 }
 
-async function loadMachineName()
+//----------------------------------------------------------
+// REST - System
+//----------------------------------------------------------
+
+async function loadMachineName() {
+    const response =
+        await fetch("/api/system/machinename");
+
+    const json =
+        await response.json();
+
+    document.getElementById("machineName").value =
+        json.machineName;
+}
+
+//----------------------------------------------------------
+// REST - Time
+//----------------------------------------------------------
+
+async function loadTime()
 {
-    let response = await fetch("/api/system/machinename");
+    const response =  await fetch("/api/time");
 
-    let json = await response.json();
+    const json = await response.json();
 
-    document.getElementById("machineName").value = json.machineName;
+    document.getElementById("currentTime").value = json.time;
 }
-
-load();
