@@ -13,7 +13,7 @@
 
         public TimeApi(TimeService service)
         {
-            _service = service;
+            this._service = service;
         }
 
         public void Register(IEndpointRouteBuilder endpoints)
@@ -22,7 +22,7 @@
             {
                 return Results.Ok(new
                 {
-                    Time = _service.CurrentTime.ToString("HH:mm:ss",CultureInfo.CurrentCulture)
+                    Time = this._service.CurrentTime.ToString("HH:mm:ss",CultureInfo.CurrentCulture)
                 });
             });
         }

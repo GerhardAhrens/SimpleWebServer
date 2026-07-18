@@ -69,12 +69,13 @@ namespace SimpleWebServer.WebFunction
 
             Console.WriteLine();
             Console.Line();
-            Console.WriteText("Simple Web Server", ConsoleColor.Yellow);
+            Console.WriteText("Simple Web Server mit SignalR", ConsoleColor.Yellow);
             Console.Line();
             Console.WriteText($"Computer : {info.MachineName}");
             Console.WriteText($"Benutzer : {info.UserName}");
             Console.WriteText($"OS        : {info.OperatingSystem}");
             Console.WriteText($".NET      : {info.DotNetVersion}");
+            Console.WriteText($"Startzeit : {info.StartTime.ToString(CultureInfo.CurrentCulture)}");
             Console.Line();
             Console.WriteText("Erreichbar unter:");
 

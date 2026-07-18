@@ -10,17 +10,15 @@
         private readonly IHubContext<WebServerHub> _hub;
         private readonly HelloWorldService _helloService;
 
-        public NotificationService(
-            IHubContext<WebServerHub> hub,
-            HelloWorldService helloService)
+        public NotificationService(IHubContext<WebServerHub> hub, HelloWorldService helloService)
         {
-            _hub = hub;
-            _helloService = helloService;
+            this._hub = hub;
+            this._helloService = helloService;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _helloService.TextChanged += OnTextChanged;
+            this._helloService.TextChanged += this.OnTextChanged;
 
             Console.WriteLine("NotificationService gestartet");
 
@@ -29,7 +27,7 @@
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _helloService.TextChanged -= OnTextChanged;
+            _helloService.TextChanged -= this.OnTextChanged;
 
             Console.WriteLine("NotificationService beendet");
 
@@ -38,7 +36,7 @@
 
         private async void OnTextChanged(object sender, EventArgs e)
         {
-            await _hub.Clients.All.SendAsync("HelloChanged");
+            await this._hub.Clients.All.SendAsync("HelloChanged");
         }
     }
 }

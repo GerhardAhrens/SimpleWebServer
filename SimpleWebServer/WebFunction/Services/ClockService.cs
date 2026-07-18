@@ -12,16 +12,25 @@
 
         public ClockService(IHubContext<WebServerHub> hub)
         {
-            _hub = hub;
+            this._hub = hub;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine("ClockService gestartet");
+
             using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
 
-            while (await timer.WaitForNextTickAsync(stoppingToken))
+            try
             {
-                await _hub.Clients.All.SendAsync("TimeChanged", DateTime.Now.ToString("HH:mm:ss", CultureInfo.CurrentCulture), stoppingToken);
+                while (await timer.WaitForNextTickAsync(stoppingToken))
+                {
+                    await this._hub.Clients.All.SendAsync("TimeChanged", DateTime.Now.ToString("HH:mm:ss", CultureInfo.CurrentCulture), stoppingToken);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("ClockService beendet");
             }
         }
     }

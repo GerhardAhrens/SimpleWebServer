@@ -10,21 +10,21 @@
 
         public SystemApi(SystemService service)
         {
-            _service = service;
+            this._service = service;
         }
 
         public void Register(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/api/system/info", () =>
             {
-                return Results.Ok(_service.GetSystemInfo());
+                return Results.Ok(this._service.GetSystemInfo());
             });
 
             endpoints.MapGet("/api/system/machinename", () =>
             {
                 return Results.Ok(new
                 {
-                    MachineName = _service.GetSystemInfo().MachineName
+                    MachineName = this._service.GetSystemInfo().MachineName
                 });
             });
         }

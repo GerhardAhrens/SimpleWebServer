@@ -23,9 +23,9 @@
 
                 ProcessorCount = Environment.ProcessorCount,
 
-                StartTime = _startTime,
+                StartTime = this._startTime,
 
-                UpTime = DateTime.Now - _startTime,
+                UpTime = DateTime.Now - this._startTime,
 
                 IpAddresses = GetIPv4Addresses()
             };
