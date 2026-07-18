@@ -12,7 +12,7 @@
 // <date>13.07.2026 15:20:09</date>
 //
 // <summary>
-// Konsolen Applikation mit Menü
+// Web Server initalisieren und starten
 // </summary>
 //-----------------------------------------------------------------------
 
@@ -34,15 +34,23 @@ namespace SimpleWebServer
 
         private static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            try
+            {
+                var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSimpleWebServer(builder);
+                builder.Services.AddSimpleWebServer(builder);
 
-            var app = builder.Build();
+                var app = builder.Build();
 
-            app.UseSimpleWebServer();
+                app.UseSimpleWebServer();
 
-            app.Run();
+                app.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteError(ex.Message);
+                Console.Wait();
+            }
         }
     }
 }
