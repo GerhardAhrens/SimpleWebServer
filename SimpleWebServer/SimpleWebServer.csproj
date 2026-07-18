@@ -15,7 +15,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="SmartHomeAktor.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Include="Resources\Console.Template.ico" />
+        <Content Include="SmartHomeAktor.txt">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

@@ -24,6 +24,8 @@ namespace SimpleWebServer.WebFunction
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using SimpleWebServer.WebFunction.Services;
+
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddSimpleWebServer(this IServiceCollection services, WebApplicationBuilder builder)
@@ -52,11 +54,11 @@ namespace SimpleWebServer.WebFunction
                 {
                     options.ListenLocalhost(config.Port);
                 }
-                else if (config.Host.Equals("*"))
+                else if (config.Host.Equals("*", StringComparison.OrdinalIgnoreCase))
                 {
                     options.ListenAnyIP(config.Port);
                 }
-                else if (config.Host.Equals("self"))
+                else if (config.Host.Equals("self",StringComparison.OrdinalIgnoreCase))
                 {
                     var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
                     options.Listen(System.Net.IPAddress.Parse(localIP), config.Port);
@@ -73,10 +75,12 @@ namespace SimpleWebServer.WebFunction
 
             services.AddHostedService<ClockService>();
             services.AddHostedService<NotificationService>();
+            services.AddHostedService<SmartHomeAktorFileService>();
 
             services.AddSingleton<HelloWorldService>();
             services.AddSingleton<SystemService>();
             services.AddSingleton<TimeService>();
+            services.AddSingleton<SmartHomeAktorService>();
 
             //----------------------------------------------------------
             // Alle REST-APIs automatisch registrieren

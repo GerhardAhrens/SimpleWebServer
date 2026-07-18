@@ -21,6 +21,7 @@ namespace SimpleWebServer
     using System;
     /* Imports from NET Framework */
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
 
     using SimpleWebServer.WebFunction;
 

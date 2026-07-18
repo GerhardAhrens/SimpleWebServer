@@ -79,13 +79,13 @@ namespace SimpleWebServer.WebFunction
             Console.Line();
             Console.WriteText("Erreichbar unter:");
 
-            if (configuration.Host.ToLower(CultureInfo.CurrentCulture) == "localhost".ToLower(CultureInfo.CurrentCulture))
+            if (configuration.Host.Equals("localhost",StringComparison.OrdinalIgnoreCase)==true)
             {
                 Console.WriteText($"LocalHost : {configuration.Host}:{configuration.Port}", ConsoleColor.Green);
             }
             else
             {
-                if (configuration.Host.Equals("self"))
+                if (configuration.Host.Equals("self",StringComparison.OrdinalIgnoreCase))
                 {
                     var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
                     Console.WriteText($"Localhost : {localIP}:{configuration.Port}", ConsoleColor.Green);

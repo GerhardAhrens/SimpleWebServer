@@ -14,6 +14,7 @@ async function initialize()
     await loadHello();
     await loadMachineName();
     await loadTime();
+    await loadSmartHome();
 }
 
 //----------------------------------------------------------
@@ -46,44 +47,46 @@ const connection =
         .build();
 
 async function startSignalR() {
-    connection.on("HelloChanged", async () => {
+    connection.on("HelloChanged", async () =>
+    {
         console.log("HelloChanged");
 
         await loadHello();
     });
 
-    connection.on("TimeChanged", (time) => {
+    connection.on("TimeChanged", (time) =>
+    {
         console.log("TimeChanged empfangen:", time);
 
         document.getElementById("currentTime").value = time;
     });
 
+    connection.on("SmartHomeChanged", async () =>
+    {
+        await loadSmartHome();
+    });
+
     connection.onreconnecting(() => {
-        document.getElementById("connectionState").innerText =
-            "Verbindung wird wiederhergestellt...";
+        document.getElementById("connectionState").innerText = "Verbindung wird wiederhergestellt...";
     });
 
     connection.onreconnected(() => {
-        document.getElementById("connectionState").innerText =
-            "Verbunden";
+        document.getElementById("connectionState").innerText = "Verbunden";
     });
 
     connection.onclose(() => {
-        document.getElementById("connectionState").innerText =
-            "Getrennt";
+        document.getElementById("connectionState").innerText = "Getrennt";
     });
 
     try {
         await connection.start();
 
-        document.getElementById("connectionState").innerText =
-            "Verbunden";
+        document.getElementById("connectionState").innerText = "Verbunden";
     }
     catch (err) {
         console.error(err);
 
-        document.getElementById("connectionState").innerText =
-            "Fehler";
+        document.getElementById("connectionState").innerText = "Fehler";
     }
 }
 
@@ -153,4 +156,24 @@ async function loadTime()
     const json = await response.json();
 
     document.getElementById("currentTime").value = json.time;
+}
+
+//----------------------------------------------------------
+// REST - Smart Home
+//----------------------------------------------------------
+
+async function loadSmartHome()
+{
+    const response = await fetch("/api/smarthomeaktor");
+
+    if (!response.ok)
+        return;
+
+    const json = await response.json();
+
+    document.getElementById("currentPower").value = json.currentPower;
+
+    document.getElementById("currentVolt").value = json.currentVolt;
+
+    document.getElementById("currentTemperature").value = json.currentTemperature;
 }
