@@ -15,6 +15,7 @@
 
 namespace SimpleWebServer.WebFunction
 {
+    using System.Net;
     using System.Windows;
 
     using Microsoft.AspNetCore.Builder;
@@ -38,18 +39,27 @@ namespace SimpleWebServer.WebFunction
             // Kestrel konfigurieren
             //----------------------------------------------------------
 
+            var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
+
             builder.WebHost.ConfigureKestrel(options =>
             {
                 if (config.LocalhostOnly)
                 {
                     options.ListenLocalhost(config.Port);
                 }
+                else if (!string.IsNullOrWhiteSpace(config.IpAddress) && config.IpAddress != "*")
+                {
+                    options.Listen(IPAddress.Parse(config.IpAddress), config.Port);
+                }
+                else if (!string.IsNullOrWhiteSpace(config.IpAddress) && config.IpAddress == "*")
+                {
+                    options.Listen(IPAddress.Parse(localIP), config.Port);
+                }
                 else
                 {
                     options.ListenAnyIP(config.Port);
                 }
             });
-
             //----------------------------------------------------------
             // Services registrieren
             //----------------------------------------------------------

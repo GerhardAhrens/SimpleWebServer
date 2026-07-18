@@ -45,7 +45,22 @@ namespace SimpleWebServer.WebFunction
             Console.WriteText("Simple Web Server", ConsoleColor.Yellow);
             Console.Line();
             Console.WriteText($"Port      : {config.Port}", ConsoleColor.Green);
-            Console.WriteText($"Localhost : {config.LocalhostOnly}", ConsoleColor.Green);
+            if (config.LocalhostOnly == true)
+            {
+                Console.WriteText($"Localhost : {config.LocalhostOnly}", ConsoleColor.Green);
+            }
+            else
+            {
+                var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
+                if (config.IpAddress == "*")
+                {
+                    Console.WriteText($"Localhost : {localIP}", ConsoleColor.Green);
+                }
+                else
+                {
+                    Console.WriteText($"Localhost : {config.IpAddress}", ConsoleColor.Green);
+                }
+            }
             Console.Line();
             Console.WriteLine();
 

@@ -16,5 +16,12 @@
         /// false = Netzwerkzugriff erlauben
         /// </summary>
         public bool LocalhostOnly { get; set; }
+
+        /// <summary>
+        /// Leer = alle Netzwerkkarten
+        /// Beispiel:
+        /// 192.168.178.25
+        /// </summary>
+        public string IpAddress { get; set; }
     }
 }
