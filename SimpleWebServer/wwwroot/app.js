@@ -133,15 +133,13 @@ async function saveHello() {
 // REST - System
 //----------------------------------------------------------
 
-async function loadMachineName() {
-    const response =
-        await fetch("/api/system/machinename");
+async function loadMachineName()
+{
+    const response = await fetch("/api/system/machinename");
 
-    const json =
-        await response.json();
+    const json = await response.json();
 
-    document.getElementById("machineName").value =
-        json.machineName;
+    document.getElementById("machineName").value = json.machineName;
 }
 
 //----------------------------------------------------------
