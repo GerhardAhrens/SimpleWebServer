@@ -6,8 +6,10 @@
     <File Path="README.md" />
     <File Path="SignalR_Aktor.png" />
     <File Path="SignalR_Uhr.png" />
+    <File Path="Start_URL.png" />
     <File Path="WebServerOutput.png" />
     <File Path="WebServerStart.png" />
+    <File Path="WebServerStruktur.png" />
   </Folder>
   <Project Path="SimpleWebServer/SimpleWebServer.csproj" />
 </Solution>

@@ -15,9 +15,17 @@ In diesem Projekt soll ein einfacher Web-Server mit REST-API Endpunkte entstehen
 Der Source ist soll auch einfache Art und Weise die Funktionen eines Features zeigen. Der Source ist so geschrieben, das so wenig wie möglich zusätzliche NuGet-Pakete benötigt werden.
 
 ## Beispielsource
+### Projektstruktur
+
+<img src="WebServerStruktur.png" style="width:350px;"/>
 
 Start des Web Server
 <img src="WebServerStart.png" style="width:650px;"/>
+
+Nach dem der Web Server gestartet ist, kann von dort aus auch die Webseite aufgerufen werden.
+Hierzu muß die Start URL mit STRG-Mausklick
+<img src="Start_URL.png" style="width:650px;"/>
+aufgerufen werden. Im Browser wird dann die Seite aufgerufen.
 
 ```csharp
 try
@@ -47,6 +55,21 @@ catch (Exception ex)
 }
 ```
 
+### Konfiguration
+
+```json
+{
+  "WebServer": {
+    "Port": 8080,
+    "Host": "self",
+    "DisableBrowserCache": true
+  }
+}
+```
+
+- Host, hier kann entweder `localhost`, eine IP Adresse, oder bei **self** wird die aktuelle IP Adresse automatisch ermittelt.
+- Port unter dem die Seite zu erreichen ist
+- DisableBrowserCache, der Browser wird benachrichtigt, die webseite nicht zu cachen.
 
 Zugriff über den Browser
 <img src="BrwoserOutput.png" style="width:650px;"/>
@@ -57,21 +80,9 @@ Ergebnis beim Zugriff über die REST API Schnittstelle
 Automatische Aktualisierung über SignalR für eine "laufende" Uhr
 <img src="SignalR_Uhr.png" style="width:650px;"/>
 
-```csharp
-```
-
 Automatische Aktualisierung über SignalR für das Lesen einer ACII Datei
 und aktualisierung wenn sich der Inhalt der Datei ändert.
 <img src="SignalR_Aktor.png" style="width:650px;"/>
-
-```csharp
-```
-
-```xml
-```
-
-```json
-```
 
 # Versionshistorie
 ![Version](https://img.shields.io/badge/Version-1.0.2026.2-yellow.svg)
