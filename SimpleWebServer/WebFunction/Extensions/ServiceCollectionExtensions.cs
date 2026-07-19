@@ -74,8 +74,9 @@ namespace SimpleWebServer.WebFunction
             //----------------------------------------------------------
 
             services.AddHostedService<ClockService>();
-            services.AddHostedService<NotificationService>();
             services.AddHostedService<SmartHomeAktorFileService>();
+            services.AddHostedService<HelloNotificationService>();
+            services.AddHostedService<SmartHomeNotificationService>();
 
             services.AddSingleton<HelloWorldService>();
             services.AddSingleton<SystemService>();

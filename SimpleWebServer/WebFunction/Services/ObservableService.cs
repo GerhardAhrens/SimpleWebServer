@@ -2,27 +2,33 @@
 {
     using System;
 
-    public class ObservableService<T> where T : class
+    /// <summary>
+    /// Basisklasse für Services, die einen aktuellen Zustand verwalten
+    /// und Änderungen über ein Event bekannt geben.
+    /// </summary>
+    public abstract class ObservableService<T>
     {
         public event EventHandler Changed;
 
-        public T Current { get; private set; }
+        public T Current { get; protected set; }
 
-        public ObservableService(T initialValue)
+        protected ObservableService(T initialValue)
         {
-            this.Current = initialValue;
+            Current = initialValue;
         }
 
-        protected void RaiseChanged()
+        protected bool SetCurrent(T value)
         {
-            this.Changed?.Invoke(this, EventArgs.Empty);
-        }
+            if (EqualityComparer<T>.Default.Equals(Current, value))
+            {
+                return false;
+            }
 
-        protected void SetCurrent(T value)
-        {
-            this.Current = value;
+            Current = value;
 
-            this.RaiseChanged();
+            Changed?.Invoke(this, EventArgs.Empty);
+
+            return true;
         }
     }
 }

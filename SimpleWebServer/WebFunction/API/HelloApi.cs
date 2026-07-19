@@ -19,47 +19,30 @@ namespace SimpleWebServer.WebFunction
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
 
-    using System;
-
+    public record HelloResponse(string Text, DateTime Time);
     public record HelloRequest(string Text);
 
     public class HelloApi : IRestApi
     {
-        private readonly HelloWorldService _service;
-
-        public HelloApi(HelloWorldService service)
-        {
-            _service = service;
-        }
-
         public void Register(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/api/hello", () =>
-            {
-                return Results.Ok(new
+            endpoints.MapGet("/api/hello",
+                (HelloWorldService service) =>
                 {
-                    Text = _service.Text,
-                    Time = DateTime.Now
+                    return Results.Ok(
+                        new HelloResponse(
+                            service.Text,
+                            DateTime.Now));
                 });
-            });
 
-            endpoints.MapPost("/api/hello", (HelloRequest request) =>
-            {
-                _service.Text = request.Text;
-
-                return Results.Ok();
-            });
-
-            endpoints.MapGet("/api/hello/set", (string text, HelloWorldService service) =>
-            {
-                service.Text = text;
-
-                return Results.Ok(new
+            endpoints.MapPost("/api/hello",
+                (HelloRequest request,
+                 HelloWorldService service) =>
                 {
-                    Success = true,
-                    Text = service.Text
+                    service.SetText(request.Text);
+
+                    return Results.Ok();
                 });
-            });
         }
     }
 }

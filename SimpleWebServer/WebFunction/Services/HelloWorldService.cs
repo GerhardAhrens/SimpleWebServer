@@ -18,32 +18,19 @@ namespace SimpleWebServer.WebFunction
     using System;
     using System.Collections.Generic;
 
-    public class HelloWorldService
+    using SimpleWebServer.WebFunction.Services;
+
+    public class HelloWorldService : ObservableService<string>
     {
-        private readonly HelloWorldModel _model = new();
-
-        public event EventHandler TextChanged;
-
-        public HelloWorldService()
+        public HelloWorldService() : base("Hello World")
         {
-            /* Console.WriteLine($"HelloWorldService: {GetHashCode()}");*/
         }
 
-        public string Text
+        public string Text => Current;
+
+        public void SetText(string text)
         {
-            get => this._model.Text;
-
-            set
-            {
-                if (this._model.Text == value)
-                {
-                    return;
-                }
-
-                this._model.Text = value;
-
-                this.TextChanged?.Invoke(this, EventArgs.Empty);
-            }
+            base.SetCurrent(text);
         }
     }
 }

@@ -1,27 +1,16 @@
 ﻿namespace SimpleWebServer.WebFunction
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using SimpleWebServer.WebFunction.Services;
 
-    public class SmartHomeAktorService
+    public class SmartHomeAktorService : ObservableService<SmartHomeAktor>
     {
-        public SmartHomeAktor Current { get; private set; } = new();
-
-        public event EventHandler Changed;
+        public SmartHomeAktorService() : base(new SmartHomeAktor())
+        {
+        }
 
         public void Update(SmartHomeAktor value)
         {
-            if (Current.CurrentPower == value.CurrentPower &&
-                Current.CurrentVolt == value.CurrentVolt &&
-                Current.CurrentTemperature == value.CurrentTemperature)
-            {
-                return;
-            }
-
-            Current = value;
-
-            Changed?.Invoke(this, EventArgs.Empty);
+            base.SetCurrent(value);
         }
     }
 }

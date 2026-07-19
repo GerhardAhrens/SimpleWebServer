@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/Version-1.0.2026.0-yellow.svg)
 
 ## Projekt 
-In diesem Projekt soll ein einfacher Web-Server mit REST-API Endpunkte entstehen. Das Projekt dient zur Demonstration wie ein Web-Server und REST-API funktionieren
+In diesem Projekt soll ein einfacher Web-Server mit REST-API Endpunkte entstehen. Das Projekt dient zur Demonstration wie ein Web-Server und REST-API funktionieren. Weiter wurde eine Fuktionalität in Verbindung mit **SignalR** für eine aktualisierende Uhr und auktualisierende Anzeige bei der änderung einer ASCII Datei implementiert.
 
 <img src="WebServerOutput.png" style="width:650px;"/>
 
@@ -16,12 +16,53 @@ Der Source ist soll auch einfache Art und Weise die Funktionen eines Features ze
 
 ## Beispielsource
 
+Start des Web Server
+<img src="WebServerStart.png" style="width:650px;"/>
+
+```csharp
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddSimpleWebServer(builder);
+
+    var app = builder.Build();
+
+    /*
+    var hostedServices = app.Services.GetServices<IHostedService>();
+    foreach (var service in hostedServices)
+    {
+        Console.WriteLine(service.GetType().FullName);
+    }
+    */
+
+    app.UseSimpleWebServer();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteError(ex.Message);
+    Console.Wait();
+}
+```
+
+
 Zugriff über den Browser
 <img src="BrwoserOutput.png" style="width:650px;"/>
 
 Ergebnis beim Zugriff über die REST API Schnittstelle
 <img src="JSONOutput.png" style="width:650px;"/>
 
+Automatische Aktualisierung über SignalR für eine "laufende" Uhr
+<img src="SignalR_Uhr.png" style="width:650px;"/>
+
+```csharp
+```
+
+Automatische Aktualisierung über SignalR für das Lesen einer ACII Datei
+und aktualisierung wenn sich der Inhalt der Datei ändert.
+<img src="SignalR_Aktor.png" style="width:650px;"/>
 
 ```csharp
 ```
@@ -33,5 +74,5 @@ Ergebnis beim Zugriff über die REST API Schnittstelle
 ```
 
 # Versionshistorie
-![Version](https://img.shields.io/badge/Version-1.0.2026.0-yellow.svg)
+![Version](https://img.shields.io/badge/Version-1.0.2026.2-yellow.svg)
 - Erste Version

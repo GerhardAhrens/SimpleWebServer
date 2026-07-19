@@ -46,7 +46,8 @@ const connection =
         .withAutomaticReconnect()
         .build();
 
-async function startSignalR() {
+async function startSignalR()
+{
     connection.on("HelloChanged", async () =>
     {
         console.log("HelloChanged");
@@ -94,18 +95,15 @@ async function startSignalR() {
 // REST - Hello
 //----------------------------------------------------------
 
-async function loadHello() {
-    const response =
-        await fetch("/api/hello");
+async function loadHello()
+{
+    const response = await fetch("/api/hello");
 
-    const json =
-        await response.json();
+    const json = await response.json();
 
-    document.getElementById("result").innerHTML =
-        json.text + "<br>" + json.time;
+    document.getElementById("result").innerHTML = json.text + "<br>" + json.time;
 
-    document.getElementById("text").value =
-        json.text;
+    document.getElementById("text").value = json.text;
 }
 
 async function saveHello() {

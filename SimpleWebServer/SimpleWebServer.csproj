@@ -10,8 +10,8 @@
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
         <EnableNETAnalyzers>True</EnableNETAnalyzers>
-        <AssemblyVersion>1.0.2026.1</AssemblyVersion>
-        <FileVersion>1.0.2026.1</FileVersion>
+        <AssemblyVersion>1.0.2026.2</AssemblyVersion>
+        <FileVersion>1.0.2026.2</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
