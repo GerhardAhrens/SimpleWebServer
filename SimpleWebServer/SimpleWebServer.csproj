@@ -16,7 +16,10 @@
 
     <ItemGroup>
       <None Remove="SmartHomeAktor.txt" />
+      <None Remove="wwwroot\css\ImageDashboard.css" />
       <None Remove="wwwroot\dashboard.html" />
+      <None Remove="wwwroot\ImageDashboard.html" />
+      <None Remove="wwwroot\js\ImageDashboard.js" />
     </ItemGroup>
 
     <ItemGroup>
@@ -24,7 +27,16 @@
         <Content Include="SmartHomeAktor.txt">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="wwwroot\dashboard.html">
+        <Content Include="wwwroot\css\ImageDashboard.css">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="wwwroot\Dashboard.html">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="wwwroot\ImageDashboard.html">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="wwwroot\js\ImageDashboard.js">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

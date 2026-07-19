@@ -1,7 +1,5 @@
 ﻿namespace SimpleWebServer.WebFunction
 {
-    using SimpleWebServer.WebFunction.Services;
-
     public class SmartHomeAktorService : ObservableService<SmartHomeAktor>
     {
         public SmartHomeAktorService() : base(new SmartHomeAktor())

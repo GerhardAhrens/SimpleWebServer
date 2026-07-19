@@ -1,4 +1,4 @@
-﻿namespace SimpleWebServer.WebFunction.Services
+﻿namespace SimpleWebServer.WebFunction
 {
     using System;
     using System.Collections.Generic;

@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>Image Dashboard</title>
+
+    <link rel="stylesheet"
+          href="/css/imageDashboard.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+
+    <script defer
+            src="/js/imageDashboard.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Image Dashboard</h1>
+
+        <div class="connection">
+
+            <span>SignalR:</span>
+
+            <span id="connectionState">
+                Nicht verbunden
+            </span>
+
+        </div>
+
+    </header>
+
+    <main class="container">
+
+        <aside id="gallery"
+               class="gallery">
+
+            <!-- Thumbnails werden hier dynamisch eingefügt -->
+
+        </aside>
+
+        <section class="viewer">
+
+            <img id="imageViewer"
+                 alt="Kein Bild ausgewählt" />
+
+            <div class="imageInfo">
+
+                <div class="infoRow">
+
+                    <label>Datei</label>
+
+                    <span id="imageName"></span>
+
+                </div>
+
+                <div class="infoRow">
+
+                    <label>Datum</label>
+
+                    <span id="imageDate"></span>
+
+                </div>
+
+                <div class="infoRow">
+
+                    <label>Größe</label>
+
+                    <span id="imageSize"></span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

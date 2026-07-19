@@ -24,8 +24,6 @@ namespace SimpleWebServer.WebFunction
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    using SimpleWebServer.WebFunction.Services;
-
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddSimpleWebServer(this IServiceCollection services, WebApplicationBuilder builder)
@@ -73,15 +71,20 @@ namespace SimpleWebServer.WebFunction
             // Services registrieren
             //----------------------------------------------------------
 
+            WebServerConfiguration configuration = builder.Configuration.GetSection(WebServerConfiguration.SectionName).Get<WebServerConfiguration>() ?? new();
+            services.AddSingleton(configuration);
+
             services.AddHostedService<ClockService>();
             services.AddHostedService<SmartHomeAktorFileService>();
             services.AddHostedService<HelloNotificationService>();
             services.AddHostedService<SmartHomeNotificationService>();
+            services.AddHostedService<ImageNotificationService>();
 
             services.AddSingleton<HelloWorldService>();
             services.AddSingleton<SystemService>();
             services.AddSingleton<TimeService>();
             services.AddSingleton<SmartHomeAktorService>();
+            services.AddSingleton<ImageService>();
 
             //----------------------------------------------------------
             // Alle REST-APIs automatisch registrieren

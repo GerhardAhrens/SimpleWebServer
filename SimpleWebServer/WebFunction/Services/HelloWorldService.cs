@@ -18,7 +18,6 @@ namespace SimpleWebServer.WebFunction
     using System;
     using System.Collections.Generic;
 
-    using SimpleWebServer.WebFunction.Services;
 
     public class HelloWorldService : ObservableService<string>
     {
