@@ -10,6 +10,9 @@ In diesem Projekt soll ein einfacher Web-Server mit REST-API Endpunkte entstehen
 
 <img src="WebServerOutput.png" style="width:650px;"/>
 
+Es kann aber auch `http://192.168.178.56:8080/dashboard.html` aufgerufen werden.
+Dann wird nur ein Teil der Funktionalität abgerufen.
+<img src="Dashboard.png" style="width:650px;"/>
 
 ## Hinweis
 Der Source ist soll auch einfache Art und Weise die Funktionen eines Features zeigen. Der Source ist so geschrieben, das so wenig wie möglich zusätzliche NuGet-Pakete benötigt werden.

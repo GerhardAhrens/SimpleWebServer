@@ -28,8 +28,13 @@ namespace SimpleWebServer.WebFunction
         {
             var configuration = app.Services.GetRequiredService<IOptions<WebServerConfiguration>>().Value;
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames =
+                {
+                    "index.html"
+                }
+            });
 
             if (configuration.DisableBrowserCache == true)
             {
