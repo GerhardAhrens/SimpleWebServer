@@ -84,6 +84,11 @@ namespace SimpleWebServer.WebFunction
             Console.Line();
             Console.WriteText("Erreichbar unter:");
 
+            if (Environment.UserDomainName == "PTA")
+            {
+                configuration.Host = "localhost";
+            }
+
             if (configuration.Host.Equals("localhost",StringComparison.OrdinalIgnoreCase)==true)
             {
                 Console.WriteText($"LocalHost : {configuration.Host}:{configuration.Port}", ConsoleColor.Green);
@@ -92,7 +97,7 @@ namespace SimpleWebServer.WebFunction
             {
                 if (configuration.Host.Equals("self",StringComparison.OrdinalIgnoreCase))
                 {
-                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
+                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses()).Last();
                     Console.WriteText($"Localhost : {localIP}:{configuration.Port}", ConsoleColor.Green);
                 }
                 else

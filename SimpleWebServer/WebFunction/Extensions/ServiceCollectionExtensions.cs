@@ -46,24 +46,29 @@ namespace SimpleWebServer.WebFunction
 
             builder.WebHost.ConfigureKestrel((context, options) =>
             {
-                var config = context.Configuration.GetSection(WebServerConfiguration.SectionName).Get<WebServerConfiguration>() ?? new();
+                var configuration = context.Configuration.GetSection(WebServerConfiguration.SectionName).Get<WebServerConfiguration>() ?? new();
 
-                if (config.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+                if (Environment.UserDomainName == "PTA")
                 {
-                    options.ListenLocalhost(config.Port);
+                    configuration.Host = "localhost";
                 }
-                else if (config.Host.Equals("*", StringComparison.OrdinalIgnoreCase))
+
+                if (configuration.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase))
                 {
-                    options.ListenAnyIP(config.Port);
+                    options.ListenLocalhost(configuration.Port);
                 }
-                else if (config.Host.Equals("self",StringComparison.OrdinalIgnoreCase))
+                else if (configuration.Host.Equals("*", StringComparison.OrdinalIgnoreCase))
                 {
-                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses());
-                    options.Listen(System.Net.IPAddress.Parse(localIP), config.Port);
+                    options.ListenAnyIP(configuration.Port);
+                }
+                else if (configuration.Host.Equals("self",StringComparison.OrdinalIgnoreCase))
+                {
+                    var localIP = string.Join(":", NetworkHelper.GetLocalIPv4Addresses().Last());
+                    options.Listen(System.Net.IPAddress.Parse(localIP), configuration.Port);
                 }
                 else
                 {
-                    options.Listen(System.Net.IPAddress.Parse(config.Host), config.Port);
+                    options.Listen(System.Net.IPAddress.Parse(configuration.Host), configuration.Port);
                 }
             });
 

@@ -19,6 +19,11 @@
                 return [];
             }
 
+            if (Environment.UserDomainName == "PTA")
+            {
+                _configuration.ImagePath = @"c:\Temp\Screenshot\";
+            }
+
             return Directory
                 .EnumerateFiles(_configuration.ImagePath)
                 .Where(IsSupportedImage)
@@ -95,6 +100,11 @@
 
         public ImageDirectoryState GetState()
         {
+            if (Environment.UserDomainName == "PTA")
+            {
+                _configuration.ImagePath = @"c:\Temp\Screenshot\";
+            }
+
             if (!Directory.Exists(_configuration.ImagePath))
             {
                 return new ImageDirectoryState(0, DateTime.MinValue);
